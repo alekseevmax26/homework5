@@ -1,9 +1,11 @@
 from selector.new_user import NewUser
+from allure import title
 
 
-def test_new_user(browser):
-    newuser = NewUser(browser)
-    newuser.go_to_site()
+@title("Создание нового пользователя")
+def test_new_user(browser, url):
+    newuser = NewUser(browser, url)
+    newuser.open_browser()
     newuser.my_account()
     newuser.link_register()
     newuser.first_name()

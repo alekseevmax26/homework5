@@ -1,8 +1,10 @@
 from selector.change_currency import Currencu
+from allure import title
 
 
-def test_currencu(browser):
-    currencu = Currencu(browser)
-    currencu.go_to_site()
+@title("Смена валюты")
+def test_currencu(browser, url):
+    currencu = Currencu(browser, url)
+    currencu.open_browser()
     currencu.change_btn()
     currencu.gbr()

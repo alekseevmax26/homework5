@@ -1,9 +1,10 @@
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selector.BasePage import BasePage
+from allure import step
 
 
 class LoginAdminSelector:
+    POSTFIX_URL = "/admin"
     login = (By.ID, 'input-username')
     password = (By.ID, "input-password")
     login_button = (By.CSS_SELECTOR, ".btn")
@@ -27,86 +28,94 @@ class DeleteProductSelector:
 
 class Login(BasePage):
 
-    def __init__(self, browser):
-        super().__init__(browser)
-        self.url = ("http://localhost/admin/")
+    def open(self, url):
+        self.browser.get(url + LoginAdminSelector.POSTFIX_URL)
 
-    def open(self):
-        self.browser.get(self.url)
-
+    @step("Ввод логина")
     def login(self):
-        login = self.find_element(LoginAdminSelector.login)
-        login.send_keys("user")
+        login = self.find_element_with_wait(LoginAdminSelector.login)
+        login.send_keys("admin ")
         return login
 
+    @step("Ввод пароля")
     def password(self):
-        password = self.find_element(LoginAdminSelector.password)
-        password.send_keys("bitnami")
+        password = self.find_element_with_wait(LoginAdminSelector.password)
+        password.send_keys("admin")
         return password
 
+    @step("Нажатие кнопки Login")
     def login_button(self):
-        login_button = self.find_element(LoginAdminSelector.login_button)
+        login_button = self.find_element_with_wait(LoginAdminSelector.login_button)
         login_button.click()
         return login_button
 
+    @step("Открыть каталоп")
     def catalog(self):
-        catalog = self.find_element(LoginAdminSelector.catalog)
+        catalog = self.find_element_with_wait(LoginAdminSelector.catalog)
         catalog.click()
         return catalog
 
+    @step("Открыть продукты")
     def products(self):
-        products = self.element_to_be_clickable(LoginAdminSelector.products)
+        products = self.find_element_with_wait(LoginAdminSelector.products)
         products.click()
         return products
 
 
 class AddProduct(BasePage):
-
+    @step("Ввести имя продукта")
     def name_product(self):
-        name_product = self.find_element(AddProductSelector.name_product)
+        name_product = self.find_element_with_wait(AddProductSelector.name_product)
         name_product.send_keys("123456789")
         return name_product
 
+    @step("Ввести метатег")
     def meta_teg(self):
-        meta_teg = self.find_element(AddProductSelector.meta_teg)
+        meta_teg = self.find_element_with_wait(AddProductSelector.meta_teg)
         meta_teg.send_keys("123456789")
         return meta_teg
 
+    @step("Перейти на вкладку Data")
     def link_data(self):
-        link_data = self.element_to_be_clickable(AddProductSelector.link_data)
+        link_data = self.click_element(AddProductSelector.link_data)
         link_data.click()
         return link_data
 
+    @step("Ввести модель")
     def model(self):
-        model = self.find_element(AddProductSelector.model)
+        model = self.find_element_with_wait(AddProductSelector.model)
         model.send_keys("123456")
         return model
 
+    @step("Нажать сохранить")
     def save(self):
-        save = self.find_element(AddProductSelector.save)
+        save = self.find_element_with_wait(AddProductSelector.save)
         save.click()
         return save
 
+    @step("Нажать на добавить")
     def add_new(self):
-        add = self.find_element(AddProductSelector.add_new)
+        add = self.find_element_with_wait(AddProductSelector.add_new)
         add.click()
         return add
 
 
 class DeleteProduct(BasePage):
-
+    @step("Нажать удалить")
     def delete(self):
-        delete = self.find_element(DeleteProductSelector.delete)
+        delete = self.find_element_with_wait(DeleteProductSelector.delete)
         delete.click()
         return delete
 
+    @step("Переметиться в assert")
     def assert_confirmation(self):
         alert = self.browser.switch_to_alert()\
             .accept()
         return alert
-        
+
+    @step("Нажать принять")
     def accept_product(self):
-        accept_product = self.find_element(DeleteProductSelector.accept_product)
+        accept_product = self.find_element_with_wait(DeleteProductSelector.accept_product)
         accept_product.click()
         return accept_product
 

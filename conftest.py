@@ -1,37 +1,90 @@
 import pytest
+import logging
+
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.opera.options import Options as OperaOptions
+
+logging.basicConfig(level=logging.INFO, filename="../selenium.log")
+logger = logging.getLogger(__name__)
 
 
 def pytest_addoption(parser):
     parser.addoption('--browser_name', action='store', default='chrome',
-                     help="Choose browser: chrome or firefox")
-    parser.addoption('--language', action='store', default='en', help='Choose language')
+                     choices=["chrome", "firefox", "opera", "yandex"])
+    parser.addoption('--url', action='store', default='http://localhost')
+    parser.addoption("--headless", action="store_true", help="Run headless")
+    parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
+    parser.addoption("--executor", action="store", default="localhost")
+    parser.addoption("--bversion", action="store", default="92.0")
+    parser.addoption("--vnc", action="store_true", default=True)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
+def url(request):
+    return request.config.getoption("--url")
+
+
+@pytest.fixture
 def browser(request):
-    user_language = request.config.getoption("language")
-    options = Options()
-    options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
+    browser_name = request.config.getoption("--browser_name")
+    headless = request.config.getoption("--headless")
+    maximized = request.config.getoption("--maximized")
+    executor = request.config.getoption("--executor")
+    version = request.config.getoption("--bversion")
+    vnc = request.config.getoption("--vnc")
     fp = webdriver.FirefoxProfile()
-    fp.set_preference("intl.accept_languages", user_language)
-    browser_name = request.config.getoption("browser_name")
+    driver = None
+    logger.info(f"Run browser {browser_name}")
 
-    if browser_name == "chrome":
-        print("\nstart chrome browser for test..")
-        browser = webdriver.Chrome(options=options)
-    elif browser_name == "firefox":
-        print("\nstart firefox browser for test..")
-        browser = webdriver.Firefox(firefox_profile=fp)
+    if executor == "localhost":
+        capabilities = {'goog:chromeOptions': {}}
+
+        if browser_name == "chrome":
+            options = webdriver.ChromeOptions()
+            if headless:
+                options.headless = True
+            driver = webdriver.Chrome(options=options, desired_capabilities=capabilities)
+        elif browser_name == "firefox":
+            options = webdriver.FirefoxOptions()
+            if headless:
+                options.headless = True
+            driver = webdriver.Firefox(options=options, firefox_profile=fp)
+        elif browser_name == "opera":
+            options = OperaOptions()
+            driver = webdriver.Opera(options=options, desired_capabilities=capabilities)
+        elif browser_name == "yandex":
+            options = webdriver.ChromeOptions()
+            if headless:
+                options.headless = True
+            driver = webdriver.Opera(options=options, desired_capabilities=capabilities)
+        else:
+            raise pytest.UsageError("--browser_name should be chrome, firefox, opera, yandex")
+
+        if maximized:
+            driver.maximize_window()
     else:
-        raise pytest.UsageError("--browser_name should be chrome or firefox")
-    yield browser
-    print("\nquit browser..")
-    browser.quit()
+        executor_url = f"http://{executor}:4444/wd/hub"
 
+        capabilities = {
+            "browserName": browser_name,
+            "browserVersion": version,
+            "name": "test_opencart",
+            "selenoid:options": {
+                "sessionTimeout": "60s",
+                "enableVNC": vnc
+            }
+        }
 
-@pytest.fixture(scope="function")
-def link():
-    browser.get("http://localhost/admin/")
-    return link
+        driver = webdriver.Remote(
+            command_executor=executor_url,
+            desired_capabilities=capabilities
+        )
+
+        driver.maximize_window()
+
+    def final():
+        logger.info(f"Browser {browser_name} close")
+        driver.quit()
+
+    request.addfinalizer(final)
+    return driver

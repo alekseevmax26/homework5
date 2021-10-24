@@ -1,38 +1,44 @@
 from selector.catalog import Catalog
+from allure import title
 
 
-def test_check_desctops(browser):
-    decktops = Catalog(browser)
-    decktops.go_to_site()
+@title("Проверить desctops")
+def test_check_desctops(browser, url):
+    decktops = Catalog(browser, url)
+    decktops.open_browser()
     decktops.check_desctop()
     decktops.check_mac()
     decktops.mac_check()
 
 
-def test_check_components(browser):
-    components = Catalog(browser)
-    components.go_to_site()
+@title("Проверить components")
+def test_check_components(browser, url):
+    components = Catalog(browser, url)
+    components.open_browser()
     components.check_components()
     components.check_monitors()
     components.monitors_check()
 
 
-def test_check_tablets(browser):
-    tablets = Catalog(browser)
-    tablets.go_to_site()
+@title("Проверить tablets")
+def test_check_tablets(browser, url):
+    tablets = Catalog(browser, url)
+    tablets.open_browser()
     tablets.tablets_check()
     tablets.check_tablets()
 
 
-def test_check_software(browser):
-    software = Catalog(browser)
-    software.go_to_site()
+@title("Проверить software")
+def test_check_software(browser, url):
+    software = Catalog(browser,url)
+    software.open_browser()
     software.software_check()
     software.software_check()
 
 
-def test_check_phone(browser):
-    phone = Catalog(browser)
-    phone.go_to_site()
+@title("Проверить phone")
+def test_check_phone(browser, url):
+    phone = Catalog(browser, url)
+    phone.open_browser()
     phone.check_phone()
     phone.phones_check()
