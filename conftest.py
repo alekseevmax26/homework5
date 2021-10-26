@@ -11,10 +11,10 @@ logger = logging.getLogger(__name__)
 def pytest_addoption(parser):
     parser.addoption('--browser_name', action='store', default='chrome',
                      choices=["chrome", "firefox", "opera", "yandex"])
-    parser.addoption('--url', action='store', default='http://localhost')
+    parser.addoption('--url', action='store', default='https://demo.opencart.com')
     parser.addoption("--headless", action="store_true", help="Run headless")
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
-    parser.addoption("--executor", action="store", default="localhost")
+    parser.addoption("--executor", action="store", default="192.168.0.103")
     parser.addoption("--bversion", action="store", default="92.0")
     parser.addoption("--vnc", action="store_true", default=True)
 
