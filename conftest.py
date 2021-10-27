@@ -35,9 +35,8 @@ def browser(request):
     version = request.config.getoption("--bversion")
     vnc = request.config.getoption("--vnc")
     fp = webdriver.FirefoxProfile()
-    driver = None
+    drivers = request.config.getoption("--drivers")
     logger.info(f"Run browser {browser_name}")
-
     if executor == "localhost":
         capabilities = {'goog:chromeOptions': {}}
 
@@ -46,16 +45,16 @@ def browser(request):
             if headless:
                 options.headless = True
             driver = webdriver.Chrome(options=options, desired_capabilities=capabilities,
-                                      executable_path=browser + "/chromedriver")
+                                      executable_path=drivers + "/chromedriver")
         elif browser_name == "firefox":
             options = webdriver.FirefoxOptions()
             if headless:
                 options.headless = True
-            driver = webdriver.Firefox(options=options, firefox_profile=fp, executable_path=browser + "/geckodriver")
+            driver = webdriver.Firefox(options=options, firefox_profile=fp, executable_path=drivers + "/geckodriver")
         elif browser_name == "opera":
             options = OperaOptions()
             driver = webdriver.Opera(options=options, desired_capabilities=capabilities,
-                                     executable_path=browser + "/operadriver")
+                                     executable_path=drivers + "/operadriver")
         elif browser_name == "yandex":
             options = webdriver.ChromeOptions()
             if headless:
