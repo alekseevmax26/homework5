@@ -1,5 +1,6 @@
 import pytest
 import logging
+import os
 
 from selenium import webdriver
 from selenium.webdriver.opera.options import Options as OperaOptions
@@ -17,6 +18,7 @@ def pytest_addoption(parser):
     parser.addoption("--executor", action="store", default="192.168.0.103")
     parser.addoption("--bversion", action="store", default="92.0")
     parser.addoption("--vnc", action="store_true", default=True)
+    parser.addoption("--drivers", action="store", default=os.path.expanduser("~/Downloads/drivers"))
 
 
 @pytest.fixture(scope="session")
@@ -43,15 +45,17 @@ def browser(request):
             options = webdriver.ChromeOptions()
             if headless:
                 options.headless = True
-            driver = webdriver.Chrome(options=options, desired_capabilities=capabilities)
+            driver = webdriver.Chrome(options=options, desired_capabilities=capabilities,
+                                      executable_path=browser + "/chromedriver")
         elif browser_name == "firefox":
             options = webdriver.FirefoxOptions()
             if headless:
                 options.headless = True
-            driver = webdriver.Firefox(options=options, firefox_profile=fp)
+            driver = webdriver.Firefox(options=options, firefox_profile=fp, executable_path=browser + "/geckodriver")
         elif browser_name == "opera":
             options = OperaOptions()
-            driver = webdriver.Opera(options=options, desired_capabilities=capabilities)
+            driver = webdriver.Opera(options=options, desired_capabilities=capabilities,
+                                     executable_path=browser + "/operadriver")
         elif browser_name == "yandex":
             options = webdriver.ChromeOptions()
             if headless:
