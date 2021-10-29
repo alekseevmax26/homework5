@@ -1,3 +1,4 @@
+from allure_commons._allure import step
 from selenium.webdriver.common.by import By
 from selector.BasePage import BasePage
 
@@ -18,52 +19,63 @@ class CatalogSelector:
 
 
 class Catalog(BasePage):
-
+    @step("Открыть дектоп")
     def check_desctop(self):
-        desctop = self.find_element(CatalogSelector.desctops)
+        desctop = self.find_element_with_wait(CatalogSelector.desctops)
         return desctop
 
+    @step("Открыть mac")
     def check_mac(self):
-        mac = self.find_element(CatalogSelector.mac)
+        mac = self.find_element_with_wait(CatalogSelector.mac)
         return mac
 
+    @step("Открыть компоненты")
     def check_components(self):
-        components = self.find_element(CatalogSelector.components)
+        components = self.find_element_with_wait(CatalogSelector.components)
         return components
 
+    @step("Открыть мониторы")
     def check_monitors(self):
-        monitors = self.find_element(CatalogSelector.monitors)
+        monitors = self.find_element_with_wait(CatalogSelector.monitors)
         return monitors
 
+    @step("Открыть планшеты")
     def check_tablets(self):
-        tablets = self.find_element(CatalogSelector.tablets)
+        tablets = self.find_element_with_wait(CatalogSelector.tablets)
         return tablets
 
+    @step("Открыть ПО")
     def check_software(self):
-        software = self.find_element(CatalogSelector.software)
+        software = self.find_element_with_wait(CatalogSelector.software)
         return software
 
+    @step("Открыть телефоны")
     def check_phone(self):
-        phone = self.find_element(CatalogSelector.phones)
+        phone = self.find_element_with_wait(CatalogSelector.phones)
         return phone
 
+    @step("Наличие mac")
     def mac_check(self):
-        mac_check = self.find_element(CatalogSelector.check_mac)
+        mac_check = self.find_element_with_wait(CatalogSelector.check_mac)
         return mac_check
 
+    @step("Наличие монитора")
     def monitors_check(self):
-        monitors_check = self.find_element(CatalogSelector.check_monitors)
+        monitors_check = self.find_element_with_wait(CatalogSelector.check_monitors)
         return monitors_check
 
+    @step("Наличие планшетов")
     def tablets_check(self):
-        tablets_check = self.find_element(CatalogSelector.check_tablets)
+        tablets_check = self.find_element_with_wait(CatalogSelector.check_tablets)
         return tablets_check
 
+    @step("Наличие software")
     def software_check(self):
-        software_check = self.find_element(CatalogSelector.check_software)
+        software_check = self.find_element_with_wait(CatalogSelector.check_software)
         return software_check
 
+    @step("Наличие phones")
     def phones_check(self):
-        phones_check = self.find_element(CatalogSelector.check_phones)
+        phones_check = self.find_element_with_wait(CatalogSelector.check_phones)
         return phones_check
     

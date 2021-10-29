@@ -1,32 +1,38 @@
 from selector.main_page import MainPage
+from allure import title
 
 
-def test_check_name(browser):
-    main = MainPage(browser)
-    main.go_to_site()
+@title("Наличие логотипа")
+def test_check_name(browser, url):
+    main = MainPage(browser, url)
+    main.open_browser()
     main.check_name()
     main.should_be_search_name()
 
 
-def test_check_cart(browser):
-    main = MainPage(browser)
-    main.go_to_site()
+@title("Наличие корзины")
+def test_check_cart(browser, url):
+    main = MainPage(browser, url)
+    main.open_browser()
     main.check_cart()
 
 
-def test_check_macbook(browser):
-    main = MainPage(browser)
-    main.go_to_site()
+@title("Наличие кнопки корзина")
+def test_check_macbook(browser, url):
+    main = MainPage(browser, url)
+    main.open_browser()
     main.check_macbook()
 
 
-def test_check_search(browser):
-    main = MainPage(browser)
-    main.go_to_site()
+@title("Наличие поиска")
+def test_check_search(browser, url):
+    main = MainPage(browser, url)
+    main.open_browser()
     main.check_search()
 
 
-def test_check_product(browser):
-    main = MainPage(browser)
-    main.go_to_site()
+@title("Наличие продукта")
+def test_check_product(browser, url):
+    main = MainPage(browser, url)
+    main.open_browser()
     main.check_product()
