@@ -15,7 +15,7 @@ def pytest_addoption(parser):
     parser.addoption('--url', action='store', default='https://demo.opencart.com')
     parser.addoption("--headless", action="store_true", help="Run headless")
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
-    parser.addoption("--executor", action="store", default="127.0.0.1")
+    parser.addoption("--executor", action="store", default="localhost")
     parser.addoption("--bversion", action="store", default="92.0")
     parser.addoption("--vnc", action="store_true", default=True)
     parser.addoption("--drivers", action="store", default=os.path.expanduser("~/Downloads/drivers"))
@@ -45,7 +45,7 @@ def browser(request):
             if headless:
                 options.headless = True
             driver = webdriver.Chrome(options=options, desired_capabilities=capabilities,
-                                      executable_path=drivers + "/chromedriver")
+                                      executable_path=drivers + "chromedriver")
         elif browser_name == "firefox":
             options = webdriver.FirefoxOptions()
             if headless:
