@@ -37,7 +37,7 @@ def browser(request):
     fp = webdriver.FirefoxProfile()
     drivers = request.config.getoption("--drivers")
     logger.info(f"Run browser {browser_name}")
-    if executor == "selenoid-host":
+    if executor == "localhost":
         capabilities = {'goog:chromeOptions': {}}
 
         if browser_name == "chrome":
