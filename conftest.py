@@ -18,9 +18,9 @@ def pytest_addoption(parser):
     parser.addoption("--executor", action="store", default="localhost")
     parser.addoption("--bversion", action="store", default="92.0")
     parser.addoption("--vnc", action="store_true", default=True)
-    parser.addoption("--drivers", action="store", default=os.path.expanduser("~/Downloads/drivers"))
+    parser.addoption("--drivers", action="store", default=os.path.expanduser("/home/max/Downloads/drivers"))
 
-
+  
 @pytest.fixture(scope="session")
 def url(request):
     return request.config.getoption("--url")
