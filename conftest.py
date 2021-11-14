@@ -21,7 +21,7 @@ def pytest_addoption(parser):
     parser.addoption("--vnc", action="store_true", default=True)
     parser.addoption("--drivers", action="store", default=os.path.expanduser("~/Downloads/drivers"))
 
-
+  
 @pytest.fixture(scope="session")
 def url(request):
     return request.config.getoption("--url")
