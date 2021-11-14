@@ -17,7 +17,7 @@ def pytest_addoption(parser):
     parser.addoption("--headless", action="store_true", help="Run headless")
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
     parser.addoption("--executor", action="store", default="192.168.0.103")
-    parser.addoption("--bversion", action="store", default="92.0")
+    parser.addoption("--bversion", action="store", default="94.0")
     parser.addoption("--vnc", action="store_true", default=True)
     parser.addoption("--drivers", action="store", default=os.path.expanduser("~/Downloads/drivers"))
 
