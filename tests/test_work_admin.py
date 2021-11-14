@@ -23,7 +23,7 @@ def test_add_product(browser, url):
 
 
 @title("Удалить продукт")
-def test_delete_product(browser, url, web_browser):
+def test_delete_product(browser, url):
     auth = Login(browser, url)
     auth.open(url)
     auth.login()
