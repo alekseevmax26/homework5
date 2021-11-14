@@ -5,13 +5,12 @@ import os
 from selenium import webdriver
 from selenium.webdriver.opera.options import Options as OperaOptions
 
+
 logging.basicConfig(level=logging.INFO, filename="../selenium.log")
 logger = logging.getLogger(__name__)
 
 
 def pytest_addoption(parser):
-    parser.addoption('--browser_name', action='store', default='chrome',
-                     choices=["chrome", "firefox", "opera", "yandex"])
     parser.addoption('--url', action='store', default='https://demo.opencart.com')
     parser.addoption("--headless", action="store_true", help="Run headless")
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
