@@ -69,6 +69,7 @@ def browser(request):
     else:
         executor_url = f"http://{executor}:4444/wd/hub"
 
+
         capabilities = {
             "browserName": browser_name,
             "browserVersion": version,
