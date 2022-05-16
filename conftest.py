@@ -67,7 +67,8 @@ def browser(request):
         if maximized:
             driver.maximize_window()
     else:
-        executor_url = f"{executor}"
+        executor_url = f"http://{executor}:4444/wd/hub"
+
 
         capabilities = {
             "browserName": browser_name,
